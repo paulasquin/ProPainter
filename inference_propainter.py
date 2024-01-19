@@ -206,7 +206,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--scale_h', type=float, default=1.0, help='Outpainting scale of height for video_outpainting mode.')
     parser.add_argument(
-        '--scale_w', type=float, default=1.2, help='Outpainting scale of width for video_outpainting mode.')
+        '--scale_w', type=float, default=1.0, help='Outpainting scale of width for video_outpainting mode.')
     parser.add_argument(
         '--save_fps', type=int, default=24, help='Frame per second. Default: 24')
     parser.add_argument(
@@ -229,7 +229,8 @@ if __name__ == '__main__':
     frames, size, out_size = resize_frames(frames, size)
     
     fps = args.save_fps if fps is None else fps
-    save_root = os.path.join(args.output, video_name)
+    # save_root = os.path.join(args.output, video_name)
+    save_root = args.output
     if not os.path.exists(save_root):
         os.makedirs(save_root, exist_ok=True)
 
@@ -456,7 +457,7 @@ if __name__ == '__main__':
             f = comp_frames[idx]
             f = cv2.resize(f, out_size, interpolation = cv2.INTER_CUBIC)
             f = cv2.cvtColor(f, cv2.COLOR_BGR2RGB)
-            img_save_root = os.path.join(save_root, 'frames', str(idx).zfill(4)+'.png')
+            img_save_root = os.path.join(save_root, str(idx).zfill(4)+'.png')
             imwrite(f, img_save_root)
                     
 
@@ -465,10 +466,10 @@ if __name__ == '__main__':
     #     masked_frame_for_save = [i[10:-10,10:-10] for i in masked_frame_for_save]
     
     # save videos frame
-    masked_frame_for_save = [cv2.resize(f, out_size) for f in masked_frame_for_save]
-    comp_frames = [cv2.resize(f, out_size) for f in comp_frames]
-    imageio.mimwrite(os.path.join(save_root, 'masked_in.mp4'), masked_frame_for_save, fps=fps, quality=7)
-    imageio.mimwrite(os.path.join(save_root, 'inpaint_out.mp4'), comp_frames, fps=fps, quality=7)
+    # masked_frame_for_save = [cv2.resize(f, out_size) for f in masked_frame_for_save]
+    # comp_frames = [cv2.resize(f, out_size) for f in comp_frames]
+    # imageio.mimwrite(os.path.join(save_root, 'masked_in.mp4'), masked_frame_for_save, fps=fps, quality=7)
+    # imageio.mimwrite(os.path.join(save_root, 'inpaint_out.mp4'), comp_frames, fps=fps, quality=7)
     
     print(f'\nAll results are saved in {save_root}')
     
